@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html class="h-full bg-gray-100">
   <head>
-    <%= javascript_importmap_tags %>
-<script src="https://www.gstatic.com/charts/loader.js"></script>
-    <title><%= content_for(:title) || "Financeiro" %></title>
+    <title><%= content_for(:title) || "Financeiro Familiar" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -12,21 +10,73 @@
 
     <%= yield :head %>
 
-    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
-    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
-    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <main class="container mx-auto mt-28 px-5 flex">
+  <body class="h-full">
+    
+    <nav class="bg-white shadow-sm fixed w-full top-0 z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+          
+          <div class="flex">
+            <div class="flex-shrink-0 flex items-center">
+              <%= link_to root_path, class: "flex items-center gap-2 text-xl font-bold text-gray-900 no-underline" do %>
+                📊 <span class="hidden sm:block">Financeiro</span>
+              <% end %>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <% if user_signed_in? %>
+              <span class="text-sm text-gray-500 hidden md:block">
+                <%= current_user.email %>
+              </span>
+
+              <%= link_to "Minha Conta", edit_user_registration_path, class: "text-gray-700 hover:text-indigo-600 px-3 py-2 rounded-md text-sm font-medium transition" %>
+
+              <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "text-red-600 hover:text-red-800 bg-transparent border border-red-200 hover:bg-red-50 px-3 py-2 rounded-md text-sm font-medium cursor-pointer transition" %>
+            
+            <% else %>
+              <%= link_to "Entrar", new_user_session_path, class: "text-indigo-600 hover:text-indigo-900 font-medium px-3 py-2" %>
+            <% end %>
+          </div>
+
+        </div>
+      </div>
+    </nav>
+
+    <div class="fixed top-16 w-full z-40">
+      <% if notice %>
+        <div class="bg-green-50 border-l-4 border-green-400 p-4">
+          <div class="flex">
+            <div class="ml-3">
+              <p class="text-sm text-green-700"><%= notice %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="bg-red-50 border-l-4 border-red-400 p-4">
+          <div class="flex">
+            <div class="ml-3">
+              <p class="text-sm text-red-700"><%= alert %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-24 pb-12">
       <%= yield %>
     </main>
+
   </body>
 </html>

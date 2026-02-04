@@ -6,7 +6,7 @@ gem "csv"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
 
-# 👇 MUDANÇA AQUI: SQLite só no PC (Dev/Test), Postgres só na Nuvem (Production)
+
 group :development, :test do
   gem "sqlite3", ">= 2.1"
   
@@ -19,7 +19,6 @@ end
 group :production do
   gem "pg", "~> 1.1"
 end
-# 👆 FIM DA MUDANÇA DO BANCO DE DADOS
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
