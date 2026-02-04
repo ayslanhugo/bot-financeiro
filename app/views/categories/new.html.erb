@@ -1,18 +1,11 @@
 <div class="min-h-full flex flex-col justify-center py-6 sm:px-6 lg:px-8">
-  
   <div class="sm:mx-auto sm:w-full sm:max-w-md mb-6 text-center">
-    <h2 class="text-3xl font-extrabold text-gray-900">
-      💸 Nova Despesa
-    </h2>
-    <p class="mt-2 text-sm text-gray-600">
-      Adicione manualmente o que o robô não pegou.
-    </p>
+    <h2 class="text-3xl font-extrabold text-gray-900">Nova Categoria</h2>
   </div>
 
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
     <div class="bg-white py-8 px-4 shadow-lg sm:rounded-lg sm:px-10 border-t-4 border-indigo-500">
-      <%= render "form", expense: @expense %>
+      <%= render "form", category: @category %>
     </div>
   </div>
-
 </div>
