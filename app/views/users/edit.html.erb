@@ -1,0 +1,50 @@
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6 border-b border-gray-200">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">⚙️ Configurações da Conta</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">Ajuste seu orçamento e dados de conexão.</p>
+    </div>
+
+    <%= form_with(model: @user, url: profile_path, method: :patch, class: "space-y-6 px-4 py-5 sm:p-6") do |f| %>
+      
+      <% if @user.errors.any? %>
+        <div class="bg-red-50 p-4 rounded-md">
+          <h3 class="text-sm font-medium text-red-800">Erros encontrados:</h3>
+          <ul class="mt-2 text-sm text-red-700 list-disc list-inside">
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :budget, "💰 Meta de Orçamento Mensal (R$)", class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= f.number_field :budget, step: "0.01", class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border" %>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">Este valor será usado pelo Bot para calcular seu saldo restante.</p>
+      </div>
+
+      <div>
+        <%= f.label :telegram_id, "🤖 Seu ID do Telegram", class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1 bg-gray-50 rounded-md px-3 py-2 border border-gray-300 text-gray-500 select-all">
+          <%= @user.telegram_id || "Ainda não vinculado" %>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">Para descobrir o ID da sua esposa, peça para ela enviar <code>/start</code> no bot.</p>
+      </div>
+<div>
+        <%= f.label :spouse_telegram_id, "🤖 ID do Telegram (Cônjuge/Sócio)", class: "block text-sm font-medium text-gray-700" %>
+        <div class="mt-1">
+          <%= f.text_field :spouse_telegram_id, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border", placeholder: "Ex: 987654321" %>
+        </div>
+        <p class="mt-2 text-sm text-gray-500">Adicione aqui o ID da segunda pessoa que pode lançar gastos nesta conta.</p>
+      </div>
+      <div class="pt-5 border-t border-gray-200 flex justify-end gap-3">
+        <%= link_to "Cancelar", root_path, class: "bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50" %>
+        <%= f.submit "Salvar Configurações", class: "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 cursor-pointer" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>
