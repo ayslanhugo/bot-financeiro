@@ -1,15 +1,19 @@
 Rails.application.routes.draw do
+  # Rotas para categorias e despesas
   resources :categories
-  devise_for :users
-
-  resource :profile, only: [:show, :edit, :update], controller: 'users'
-
   resources :expenses
   
+  resources :users, only: [:update]
+
+  # Autenticação
+  devise_for :users
+  
+  # Rota inicial (Dashboard)
   root "expenses#index"
   
+  # Rota do Bot do Telegram
   post 'telegram/webhook', to: 'telegram#webhook'
   
-  # Health check padrão do Rails
+  # Health check do Rails
   get "up" => "rails/health#show", as: :rails_health_check
 end
