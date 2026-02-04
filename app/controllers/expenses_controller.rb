@@ -5,6 +5,7 @@ class ExpensesController < ApplicationController
   before_action :set_expense, only: %i[ show edit update destroy ]
 
   def index
+    # 1. Lógica de Navegação no Tempo
     if params[:month].present?
       @current_date = Date.parse(params[:month]) rescue Date.current
     else
@@ -12,15 +13,21 @@ class ExpensesController < ApplicationController
     end
 
     range = @current_date.all_month
-    expenses_in_month = current_user.expenses.where(date: range)
+    
+    # 👇 A CORREÇÃO ESTÁ AQUI: .reorder(nil)
+    # Isso garante que não há ordenação oculta atrapalhando os gráficos
+    expenses_in_month = current_user.expenses.where(date: range).reorder(nil)
 
+    # 2. Gráficos (Agora funcionam sem erro de agrupamento)
     @expenses_by_category = expenses_in_month.group(:category).sum(:amount)
     @expenses_by_day      = expenses_in_month.group_by_day(:date).sum(:amount)
 
+    # 3. Totais
     @total_gasto = expenses_in_month.sum(:amount)
     @orcamento   = current_user.monthly_budget
     @saldo       = @orcamento - @total_gasto
 
+    # 4. Lista Visual (Aqui sim, queremos ordenar por data)
     @expenses = expenses_in_month.order(date: :desc)
 
     respond_to do |format|
